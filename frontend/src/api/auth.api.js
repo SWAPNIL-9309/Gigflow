@@ -1,5 +1,6 @@
 import { API_URL } from "./config";
 
+
 // ✅ REGISTER USER
 export const registerUser = async (data) => {
   const res = await fetch(`${API_URL}/api/auth/register`, {
