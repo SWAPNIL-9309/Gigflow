@@ -1,4 +1,4 @@
-import { API_URL } from "./config";
+import { API_URL, authHeader } from "./config";
 
 /* =========================
    SUBMIT BID
@@ -7,7 +7,8 @@ export const submitBid = async (data) => {
   const res = await fetch(`${API_URL}/api/bids`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      ...authHeader() // 🔥 TOKEN FALLBACK
     },
     credentials: "include",
     body: JSON.stringify(data)
@@ -27,7 +28,9 @@ export const submitBid = async (data) => {
 ========================= */
 export const getBidsByGig = async (gigId) => {
   const res = await fetch(`${API_URL}/api/bids/${gigId}`, {
-    method: "GET",
+    headers: {
+      ...authHeader() // 🔥 TOKEN FALLBACK
+    },
     credentials: "include"
   });
 
@@ -46,6 +49,9 @@ export const getBidsByGig = async (gigId) => {
 export const hireBid = async (bidId) => {
   const res = await fetch(`${API_URL}/api/bids/${bidId}/hire`, {
     method: "PATCH",
+    headers: {
+      ...authHeader() // 🔥 TOKEN FALLBACK
+    },
     credentials: "include"
   });
 

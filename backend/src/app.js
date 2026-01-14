@@ -21,7 +21,7 @@ app.use(cookieParser());
 // 🔴 REQUIRED: CORS with credentials
 app.use(
   cors({
-    origin: "http://localhost:5173", // frontend URL
+    origin: "gigflow-1.vercel.app",
     credentials: true
   })
 );

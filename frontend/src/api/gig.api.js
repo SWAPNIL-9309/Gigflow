@@ -1,37 +1,43 @@
-import { API_URL } from "./config";
+import { API_URL ,authHeader} from "./config";
 
 /* =========================
-   GET ALL GIGS
+   GET ALL GIGS  ✅ REQUIRED
 ========================= */
 export const getAllGigs = async () => {
   const res = await fetch(`${API_URL}/api/gigs`, {
     credentials: "include"
   });
 
+  const result = await res.json();
+
   if (!res.ok) {
-    throw new Error("Failed to fetch gigs");
+    throw new Error(result.message || "Failed to fetch gigs");
   }
 
-  return res.json();
+  return result;
 };
 
 /* =========================
-   CREATE GIG  ✅ REQUIRED
+   CREATE GIG
 ========================= */
+
+
 export const createGig = async (data) => {
   const res = await fetch(`${API_URL}/api/gigs`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      ...authHeader() // 🔥 THIS IS THE KEY
     },
-    credentials: "include",
     body: JSON.stringify(data)
   });
 
+  const result = await res.json();
+
   if (!res.ok) {
-    const error = await res.json();
-    throw new Error(error.message || "Failed to create gig");
+    throw new Error(result.message || "Failed to create gig");
   }
 
-  return res.json();
+  return result;
 };
+

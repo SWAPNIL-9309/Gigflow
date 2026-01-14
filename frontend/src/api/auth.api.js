@@ -1,4 +1,4 @@
-import { API_URL } from "./config";
+import { API_URL, authHeader } from "./config";
 
 // ✅ REGISTER USER
 export const registerUser = async (data) => {
@@ -7,33 +7,38 @@ export const registerUser = async (data) => {
     headers: {
       "Content-Type": "application/json"
     },
-    credentials: "include",
+      credentials: "include",
     body: JSON.stringify(data)
   });
 
+  const result = await res.json();
+
   if (!res.ok) {
-    const err = await res.json();
-    throw new Error(err.message || "Registration failed");
+    console.error("REGISTER BACKEND ERROR:", result);
+    throw new Error(result.message);
   }
 
-  return res.json();
+  return result;
 };
 
 // ✅ LOGIN USER
+
+
 export const loginUser = async (data) => {
   const res = await fetch(`${API_URL}/api/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    credentials: "include",
     body: JSON.stringify(data)
   });
 
+  const result = await res.json();
+
   if (!res.ok) {
-    const err = await res.json();
-    throw new Error(err.message || "Login failed");
+    throw new Error(result.message || "Login failed");
   }
 
-  return res.json();
+  return result; // must include token + user
 };
+

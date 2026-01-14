@@ -1,18 +1,38 @@
+const express = require("express");
+const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
+
 require("dotenv").config();
-const http = require("http");
 
-const app = require("./app");
-const connectDB = require("./config/db");
-const socket = require("./config/socket");
+const authRoutes = require("./routes/auth.routes");
+const gigRoutes = require("./routes/gig.routes");
+const bidRoutes = require("./routes/bid.routes");
 
-connectDB();
+const app = express();
 
-const server = http.createServer(app);
+/* =========================
+   MIDDLEWARE (ORDER MATTERS)
+========================= */
+app.use(express.json());
+app.use(cookieParser()); // 🔥 MUST COME BEFORE ROUTES
+app.use(
+  cors({
+    origin: "gigflow-1.vercel.app",
+    credentials: true
+  })
+);
 
-// 🔔 initialize socket
-socket.init(server);
+/* =========================
+   ROUTES
+========================= */
+app.use("/api/auth", authRoutes);
+app.use("/api/gigs", gigRoutes);
+app.use("/api/bids", bidRoutes);
 
-const PORT = process.env.PORT || 8000;
-server.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+
+app.get("/", (req, res) => {
+  res.send("API running");
 });
+
+

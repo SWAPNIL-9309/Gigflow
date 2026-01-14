@@ -6,9 +6,6 @@ const {
   login
 } = require("../controllers/auth.controller");
 
-console.log("REGISTER TYPE:", typeof register);
-console.log("LOGIN TYPE:", typeof login);
-
 router.post("/register", register);
 router.post("/login", login);
 

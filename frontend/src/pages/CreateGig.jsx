@@ -16,24 +16,30 @@ export default function CreateGig({ onSuccess }) {
       return;
     }
 
+    const parsedBudget = Number(budget);
+
+    if (isNaN(parsedBudget) || parsedBudget <= 0) {
+      alert("Budget must be a valid number");
+      return;
+    }
+
     setLoading(true);
     try {
       await createGig({
-        title,
-        description,
-        budget
+        title: title.trim(),
+        description: description.trim(),
+        budget: parsedBudget // ✅ FIXED
       });
 
       alert("Gig created successfully");
 
-      // reset form
       setTitle("");
       setDescription("");
       setBudget("");
 
       if (onSuccess) onSuccess();
     } catch (error) {
-      alert("Failed to create gig");
+      alert(error.message || "Failed to create gig");
     } finally {
       setLoading(false);
     }
@@ -82,7 +88,7 @@ export default function CreateGig({ onSuccess }) {
               onChange={e => setBudget(e.target.value)}
             />
 
-            <Button onClick={handleCreateGig}>
+            <Button onClick={handleCreateGig} disabled={loading}>
               {loading ? "Creating..." : "Create gig"}
             </Button>
           </div>
