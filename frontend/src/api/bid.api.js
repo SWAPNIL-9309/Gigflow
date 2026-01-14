@@ -1,6 +1,5 @@
 import { API_URL } from "./config";
 
-
 /* =========================
    SUBMIT BID
 ========================= */
@@ -24,10 +23,11 @@ export const submitBid = async (data) => {
 };
 
 /* =========================
-   GET BIDS BY GIG  ✅ REQUIRED
+   GET BIDS BY GIG
 ========================= */
 export const getBidsByGig = async (gigId) => {
   const res = await fetch(`${API_URL}/api/bids/${gigId}`, {
+    method: "GET",
     credentials: "include"
   });
 

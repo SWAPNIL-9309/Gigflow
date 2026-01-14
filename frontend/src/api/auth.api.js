@@ -1,6 +1,5 @@
 import { API_URL } from "./config";
 
-
 // ✅ REGISTER USER
 export const registerUser = async (data) => {
   const res = await fetch(`${API_URL}/api/auth/register`, {
@@ -13,7 +12,8 @@ export const registerUser = async (data) => {
   });
 
   if (!res.ok) {
-    throw new Error("Registration failed");
+    const err = await res.json();
+    throw new Error(err.message || "Registration failed");
   }
 
   return res.json();
@@ -31,7 +31,8 @@ export const loginUser = async (data) => {
   });
 
   if (!res.ok) {
-    throw new Error("Login failed");
+    const err = await res.json();
+    throw new Error(err.message || "Login failed");
   }
 
   return res.json();
